@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct Student{
+  char name[10];
+  int id;
+  float gpa;
+};
+
+void byPtrValS(Student* newPtr);
+
+int main() {
+  char input[10];
+  vector<Student> stu;
+  Student george;
+  Student* ptrgeorge;
+  ptrgeorge = new Student();
+  Student* originalgeorge = &george;
+  cout << george.gpa << endl;
+  cout << "Enter a command" << endl;
+  cin >> input;
+}
+
+void byPtrValS(Student* newPtr) {
+  newPtr->gpa = 4.0;
+}
