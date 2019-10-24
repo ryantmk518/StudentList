@@ -4,53 +4,66 @@
 
 using namespace std;
 
+//StudentList. Ryan Thammakhoune. 
+
 struct Student{
-  char name[10];
+  char fname[10];
+  char lname[10];
   int id;
   float gpa;
 };
 
-void editStudent(Student* newPtr);
+void editStudent(vector<Student*>* stuList);
 
 int main() {
   bool start = true;
+  vector<Student*> stu;
+  vector<Student*>* stuList = &stu;
   while (start == true) {
     char input[10];
-    vector<Student*> stu;
-    vector<Student*>* stuList = &stu;
-    //vector<Student*>::iterator ptr = stu.begin();
-    //cout << *ptr << endl;
     cout << "Enter a command" << endl;
     cin >> input;
     cin.get();
     if (strcmp(input, "ADD") == 0) {
-      Student* ptrStu = new Student();
-      cout << "Enter student info." << endl;
-      editStudent(ptrStu);
-      stu.push_back(ptrStu);
+      editStudent(stuList);
     }
-    if (input == "HELP") {
-      
+    if (strcmp(input, "HELP") == 0) {
+      cout << "Type ADD to add a student\nType PRINT to print list\nType DELETE to delete student\nType QUIT to quit" << endl; 
     }
-    if (input == "PRINT") {
-    
+    if (strcmp(input, "PRINT") == 0) {
+      vector<Student*> :: iterator ptr = stuList->begin();
+      for (;ptr != stuList->end(); ++ptr) {
+	cout << (*ptr) -> fname << " " << (*ptr) -> lname << ", "<< (*ptr) -> id << ", "<< (*ptr) -> gpa << endl;
+      }
     }
-    if (input == "DELETE") {
-      char del[10];
-      cout<< "Enter name of student to delete" << endl;
+    if (strcmp(input, "DELETE") == 0) {
+      int del;
+      cout<< "Enter id of student to delete" << endl;
       cin >> del;
+      vector<Student*> :: iterator ptr = stuList->begin();
+      for (;ptr != stuList->end(); ++ptr) {
+	if (del == (*ptr) -> id) {
+	  //delete (*ptr);
+	  stuList -> erase(ptr);
+	}
+      }
     }
-    if (input == "QUIT") {
+    if (strcmp(input, "QUIT") == 0) {
       start = false;
       
     }
   }
 }
 
-void editStudent(Student* newPtr) {
+void editStudent(vector<Student*>* stuList) {
   Student* ptrStu = new Student();
-  cout << "Enter student info." << endl;
-  cin >> newPtr->name;
-  cin >> newPtr->id;
-  cin >> newPtr->gpa;
+  cout << "Enter student first name" << endl;
+  cin >> ptrStu->fname;
+  cout << "Enter student last name" << endl;
+  cin >> ptrStu->lname;
+  cout << "Enter student id" << endl;
+  cin >> ptrStu->id;
+  cout << "Enter student gpa" << endl;
+  cin >> ptrStu->gpa;
+  stuList->push_back(ptrStu);
 }
