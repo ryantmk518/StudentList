@@ -4,23 +4,25 @@
 
 using namespace std;
 
-//StudentList. Ryan Thammakhoune. 
+//StudentList. Ryan Thammakhoune. This program allows a reader to input information on students and stores them in a vector. Students can be added and deleted. The list of students can be printed. 
 
-struct Student{
-  char fname[10];
+struct Student{ //Student struct
+  char fname[10]; //Variables that the struct contains
   char lname[10];
   int id;
   float gpa;
 };
 
-void editStudent(vector<Student*>* stuList);
+void editStudent(vector<Student*>* stuList); //Initializing methods
+void deleteStu(vector<Student*>* stuList);
+void print(vector<Student*>* stuList);
 
 int main() {
-  bool start = true;
-  vector<Student*> stu;
-  vector<Student*>* stuList = &stu;
+  bool start = true; //While the user is still using the program
+  vector<Student*> stu; //Set up a vector of student pointers
+  vector<Student*>* stuList = &stu; //Set up a pointer to stu
   while (start == true) {
-    char input[10];
+    char input[10]; //Input
     cout << "Enter a command" << endl;
     cin >> input;
     cin.get();
@@ -31,33 +33,20 @@ int main() {
       cout << "Type ADD to add a student\nType PRINT to print list\nType DELETE to delete student\nType QUIT to quit" << endl; 
     }
     if (strcmp(input, "PRINT") == 0) {
-      vector<Student*> :: iterator ptr = stuList->begin();
-      for (;ptr != stuList->end(); ++ptr) {
-	cout << (*ptr) -> fname << " " << (*ptr) -> lname << ", "<< (*ptr) -> id << ", "<< (*ptr) -> gpa << endl;
-      }
+      print(stuList);
     }
     if (strcmp(input, "DELETE") == 0) {
-      int del;
-      cout<< "Enter id of student to delete" << endl;
-      cin >> del;
-      vector<Student*> :: iterator ptr = stuList->begin();
-      for (;ptr != stuList->end(); ++ptr) {
-	if (del == (*ptr) -> id) {
-	  delete (*ptr);
-	  stuList -> erase(ptr);
-	}
-      }
+      deleteStu(stuList);
     }
     if (strcmp(input, "QUIT") == 0) {
       start = false;
-      
     }
   }
 }
 
 void editStudent(vector<Student*>* stuList) {
-  Student* ptrStu = new Student();
-  cout << "Enter student first name" << endl;
+  Student* ptrStu = new Student(); //Create a pointer to student
+  cout << "Enter student first name" << endl; //Prompt user to enter info
   cin >> ptrStu->fname;
   cout << "Enter student last name" << endl;
   cin >> ptrStu->lname;
@@ -65,5 +54,28 @@ void editStudent(vector<Student*>* stuList) {
   cin >> ptrStu->id;
   cout << "Enter student gpa" << endl;
   cin >> ptrStu->gpa;
-  stuList->push_back(ptrStu);
+  stuList->push_back(ptrStu); //Push to the vector pointer
+}
+
+void deleteStu(vector<Student*>* stuList) {
+  int del;
+  cout<< "Enter id of student to delete" << endl; //Input id of student to delete
+  cin >> del;
+  vector<Student*> :: iterator ptr = stuList->begin(); //Iterator of stuList
+  while (ptr != stuList->end()) { //For every component in stuList, check if id matches input
+    if ((*ptr) -> id == del) {
+      delete *ptr; //If input matches, delete component
+      stuList->erase(ptr);
+    }
+    else { //Keep going down the vector
+      ++ptr;
+    }
+  }
+}
+
+void print(vector<Student*>* stuList) {
+  vector<Student*> :: iterator ptr = stuList->begin(); //Iterator of stuList
+  for (;ptr != stuList->end(); ++ptr) { //For each component, print
+    cout << (*ptr) -> fname << " " << (*ptr) -> lname << ", "<< (*ptr) -> id << ", "<< (*ptr) -> gpa << endl;
+  }
 }
